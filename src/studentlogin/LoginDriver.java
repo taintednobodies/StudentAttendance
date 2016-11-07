@@ -1,0 +1,98 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package studentlogin;
+
+/**
+ *
+ * @author ehartml624
+ */
+import java.util.Scanner;
+public class LoginDriver {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic her
+        Scanner input = new Scanner(System.in);
+        String admin, adminPin;
+        boolean loggedIn = false;
+        boolean exit = false;
+        while (!exit) {
+            do {
+                System.out.print("Enter in admin ID: ");
+                admin = input.nextLine();
+
+                System.out.print("Enter in admin pin: ");
+                adminPin = input.nextLine();
+
+                if (admin.equals("092624") && adminPin.equals("9891")) {
+                    System.out.println("System Closing");
+                    loggedIn = false;
+                    exit = true;
+                    break;
+                }
+                else if (!admin.equals("092624") || !adminPin.equals("1989")) {
+                    System.out.println("Incorrect Login");
+                }
+                else {
+                    loggedIn = true;
+                    System.out.println("Successful log in.");
+                }
+                
+                
+
+            }
+            while (!"092624".equals(admin) || !"1989".equals(adminPin));
+
+            
+            
+            while (loggedIn) {
+                int classChoice = -1;
+                System.out.println("Select class for attendance: ");
+                /*
+                System.out.println("0. AP Comp Sci");
+                System.out.println("1. Programming 1-2");
+                System.out.println("2. Game Design 1-2");
+                System.out.println("3. Digital Media");
+                System.out.println("4. Programming 1-2");
+                System.out.println("5. Hudl");*/
+                System.out.println("6. Game Club");
+                System.out.println("7. Logout");
+
+                do {
+                    System.out.print("Select: ");
+                    classChoice = input.nextInt();
+                    input.nextLine();
+                    if (classChoice < 6 || classChoice > 7) {
+                        System.out.println("Invalid, please select valid class");
+                    }
+                }
+                while (classChoice < 6 || classChoice > 7);
+
+                String studentId;
+                switch (classChoice) {
+                    case 6:
+                    do {
+                        System.out.print ("Enter in id: ");
+                        studentId = input.nextLine();
+                    }
+                    while (!studentId.equals("092624"));
+                    
+                    System.out.println("Attendance Recorded");
+
+                    System.out.println("The following are students not in class:");
+                    
+                    break;
+                    case 7:
+                        loggedIn = false;
+                        System.out.println("Logged out");
+                        break;
+                }
+            }
+        }
+    }  
+}
