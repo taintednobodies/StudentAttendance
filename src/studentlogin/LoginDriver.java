@@ -11,12 +11,14 @@ package studentlogin;
  */
 import java.util.Scanner;
 public class LoginDriver {
-
+    public static ClassRoster roster;
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic her
+        roster = new ClassRoster();
         Scanner input = new Scanner(System.in);
         String admin, adminPin;
         boolean loggedIn = false;
@@ -29,13 +31,13 @@ public class LoginDriver {
                 System.out.print("Enter in admin pin: ");
                 adminPin = input.nextLine();
 
-                if (admin.equals("092624") && adminPin.equals("9891")) {
+                if (admin.equals("123456") && adminPin.equals("9891")) {
                     System.out.println("System Closing");
                     loggedIn = false;
                     exit = true;
                     break;
                 }
-                else if (!admin.equals("092624") || !adminPin.equals("1989")) {
+                else if (!admin.equals("123456") || !adminPin.equals("1989")) {
                     System.out.println("Incorrect Login");
                 }
                 else {
@@ -46,12 +48,13 @@ public class LoginDriver {
                 
 
             }
-            while (!"092624".equals(admin) || !"1989".equals(adminPin));
+            while (!"123456".equals(admin) || !"1989".equals(adminPin));
 
             
             
             while (loggedIn) {
                 int classChoice = -1;
+                boolean takingAttendance = false;
                 System.out.println("Select class for attendance: ");
                 /*
                 System.out.println("0. AP Comp Sci");
@@ -76,22 +79,37 @@ public class LoginDriver {
                 String studentId;
                 switch (classChoice) {
                     case 6:
-                    do {
-                        System.out.print ("Enter in id: ");
-                        studentId = input.nextLine();
-                    }
-                    while (!studentId.equals("092624"));
-                    
-                    System.out.println("Attendance Recorded");
-
-                    System.out.println("The following are students not in class:");
-                    
+                    // load up class roster for after school club
+                    takingAttendance = true;
                     break;
                     case 7:
                         loggedIn = false;
                         System.out.println("Logged out");
                         break;
                 }
+                
+                do {
+                    System.out.print ("Enter in id: ");
+                    studentId = input.nextLine();
+                    
+                    roster.checkStudentIn(studentId);
+
+                    if (studentId.equals("123456")) {
+                        System.out.println("Attendance Recorded");
+                        takingAttendance = false;
+                    } 
+                    else if (roster.studentCheckedIn(studentId)) {
+                        System.out.println("Student already checked in");
+                    }
+                    else if (!roster.inClass(studentId)) {
+                        System.out.println("Student id does not match student in class");
+                    }
+                        
+                }
+                while (takingAttendance && !roster.inClass(studentId));
+
+                //System.out.println("The following are students not in class:");
+                
             }
         }
     }  
