@@ -13,13 +13,41 @@ import java.util.Scanner;
 public class LoginDriver {
     public static ClassRoster roster;
     
+    static Scanner input = new Scanner(System.in);
     /**
      * @param args the command line arguments
      */
+    
+    public static void attendance () {
+        String studentId;
+        boolean takingAttendance = true;
+        do {
+            System.out.print ("Enter in id: ");
+            studentId = input.nextLine();
+
+            roster.checkStudentIn(studentId);
+
+            if (studentId.equals("123456")) {
+                System.out.println("Attendance Recorded");
+                takingAttendance = false;
+            } 
+            else if (roster.studentCheckedIn(studentId)) {
+                System.out.println("Student already checked in");
+            }
+            else if (!roster.inClass(studentId)) {
+                System.out.println("Student id does not match student in class");
+            }
+
+        }
+        while (takingAttendance && !roster.inClass(studentId));
+    }
+    
+    
+    
     public static void main(String[] args) {
         // TODO code application logic her
         roster = new ClassRoster();
-        Scanner input = new Scanner(System.in);
+        //Scanner input = new Scanner(System.in);
         String admin, adminPin;
         boolean loggedIn = false;
         boolean exit = false;
@@ -54,7 +82,6 @@ public class LoginDriver {
             
             while (loggedIn) {
                 int classChoice = -1;
-                boolean takingAttendance = false;
                 System.out.println("Select class for attendance: ");
                 /*
                 System.out.println("0. AP Comp Sci");
@@ -80,7 +107,7 @@ public class LoginDriver {
                 switch (classChoice) {
                     case 6:
                     // load up class roster for after school club
-                    takingAttendance = true;
+                    attendance();
                     break;
                     case 7:
                         loggedIn = false;
@@ -88,25 +115,7 @@ public class LoginDriver {
                         break;
                 }
                 
-                do {
-                    System.out.print ("Enter in id: ");
-                    studentId = input.nextLine();
-                    
-                    roster.checkStudentIn(studentId);
-
-                    if (studentId.equals("123456")) {
-                        System.out.println("Attendance Recorded");
-                        takingAttendance = false;
-                    } 
-                    else if (roster.studentCheckedIn(studentId)) {
-                        System.out.println("Student already checked in");
-                    }
-                    else if (!roster.inClass(studentId)) {
-                        System.out.println("Student id does not match student in class");
-                    }
-                        
-                }
-                while (takingAttendance && !roster.inClass(studentId));
+                
 
                 //System.out.println("The following are students not in class:");
                 
